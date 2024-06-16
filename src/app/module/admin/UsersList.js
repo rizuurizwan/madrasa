@@ -12,7 +12,7 @@ function Userslist() {
 
     const columns = [
         //{ name: "ID", selector: row => row.id, sortable: true, width: '100px' },
-        { name: "Name", selector: row => row.name, sortable: true, },
+        { name: "Name1", selector: row => row.name, sortable: true, },
         { name: "DOB", selector: row => row.dob, sortable: true },
         { name: "Age", selector: row => row.age, sortable: true },
         { name: "Gender", selector: row => row.gender, sortable: true },
