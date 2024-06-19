@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { isNumeric } from "../../_services/validation";
-import OnlyNumbersInput from '../../_services/OnlyNumbersInput';
+import { onlyNumbers } from '../../_services/validation';
 
 function UsersDetail() {
     const [formData, setFormData] = useState({

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import OnlyNumbersInput from '../../_services/OnlyNumbersInput';
-import { isNumeric } from "../../_services/validation";
+import { onlyNumbers } from '../../_services/validation';
 
 function StudentDetail() {
     const [validated, setValidated] = useState(false);
@@ -53,11 +52,7 @@ function StudentDetail() {
             [name]: true,
         });
     };
-
-    const handleInputChange = (field, value) => {
-        setFormData({ ...formData, [field]: value });
-    };
-
+    
     return (
         <div className="container-fluid px-4">
             <Form noValidate validated={validated} onSubmit={submitFn}>
@@ -122,15 +117,16 @@ function StudentDetail() {
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3 mb-md-0">
                                         <label>வயது</label>
-                                        <OnlyNumbersInput
-                                            className="form-control"
+                                        <Form.Group
+                                            className="form-control onlyNumbers"
                                             type="text"
                                             name="age"
                                             value={formData.age}
-                                            onChange={(value) => handleInputChange('age', value)}
+                                            onKeyDown={onlyNumbers}
+                                            onChange={chngFn}
                                             onBlur={handleBlur}
                                             required
-                                            isInvalid={(validated || touched.age) && (!isNumeric(formData.age))}
+                                            isInvalid={(validated || touched.age)}
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             வயது தேவைப்படுகிறது
@@ -161,16 +157,17 @@ function StudentDetail() {
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3 mb-md-0">
                                         <label htmlFor='pin'>அஞ்சல் குறியீடு</label>
-                                        <OnlyNumbersInput
+                                        <Form.Group
                                             id='pin'
-                                            className="form-control"
+                                            className="form-control onlyNumbers"
+                                            onKeyDown={onlyNumbers}
                                             type="text"
                                             name="pin"
                                             value={formData.pin}
-                                            onChange={(value) => handleInputChange('pin', value)}
+                                            onChange={chngFn}
                                             onBlur={handleBlur}
                                             required
-                                            isInvalid={(validated || touched.pin) && (!isNumeric(formData.pin))}
+                                            isInvalid={(validated || touched.pin)}
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {"அஞ்சல் குறியீடு தேவைப்படுகிறது"}
@@ -305,16 +302,17 @@ function StudentDetail() {
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3 mb-md-0">
                                         <label htmlFor='monthlyDonation'>மாதாந்திர நன்கொடை</label>
-                                        <OnlyNumbersInput
+                                        <Form.Group
                                             id='monthlyDonation'
-                                            className="form-control"
+                                            className="form-control onlyNumbers"
+                                            onKeyDown={onlyNumbers}
                                             type="text"
                                             name="monthlyDonation"
                                             value={formData.monthlyDonation}
-                                            onChange={(value) => handleInputChange('monthlyDonation', value)}
+                                            onChange={chngFn}
                                             onBlur={handleBlur}
                                             required
-                                            isInvalid={(validated || touched.monthlyDonation) && (!isNumeric(formData.monthlyDonation))}
+                                            isInvalid={(validated || touched.monthlyDonation)}
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {"மாதாந்திர நன்கொடை தேவைப்படுகிறது"}
@@ -326,16 +324,17 @@ function StudentDetail() {
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3 mb-md-0">
                                         <label htmlFor='phoneNumber'>தொலைபேசி எண்</label>
-                                        <OnlyNumbersInput
+                                        <Form.Group
                                             id='phoneNumber'
-                                            className="form-control"
+                                            className="form-control onlyNumbers"
+                                            onKeyDown={onlyNumbers}
                                             type="tel"
                                             name="phoneNumber"
                                             value={formData.phoneNumber}
-                                            onChange={(value) => handleInputChange('phoneNumber', value)}
+                                            onChange={chngFn}
                                             onBlur={handleBlur}
                                             required
-                                            isInvalid={(validated || touched.monthlyDonation) && (!isNumeric(formData.monthlyDonation))}
+                                            isInvalid={(validated || touched.monthlyDonation)}
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {"தொலைபேசி எண் தேவைப்படுகிறது"}

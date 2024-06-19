@@ -38,22 +38,14 @@ export const fieldname = (formData) => {
   return emptyFields;
 };
 
-export const isNumeric = (value) => {
-  if (value == null || value === '') {
-    return false; 
+export const onlyNumbers = (event) => {
+  debugger
+  let charCode = (event.which) ? event.which : event.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    event.preventDefault(); // Prevent input if not a number
   }
+}
 
-  if (typeof value !== 'string') {
-    value = value.toString(); 
-  }
-
-  for (let i = 0; i < value.length; i++) {
-    if (isNaN(parseInt(value[i], 10))) {
-      return false; 
-    }
-  }
-  return true;
-};
 
 
 export const handleSubmit = (e, formData, setTouched, validateField, setErrors, touched, errors) => {

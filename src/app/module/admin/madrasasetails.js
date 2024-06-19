@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import OnlyNumbersInput from '../../_services/OnlyNumbersInput';
-import { isNumeric } from "../../_services/validation";
+import { onlyNumbers } from '../../_services/validation';
 function MadrasaDetails() {
 
     const [validated, setValidated] = useState(false);
@@ -68,9 +67,7 @@ function MadrasaDetails() {
         });
     };
 
-    const handleInputChange = (field, value) => {
-        setFormData({ ...formData, [field]: value });
-    };
+    
 
     return (
 
@@ -96,14 +93,16 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="no">
                                             <label>எண்:<span style={{ color: 'red' }}>*</span></label>
-                                            <OnlyNumbersInput
-                                                className="form-control"
+                                            <Form.Control
+                                                type="text"
+                                                className="form-control onlyNumbers"
+                                                onKeyDown={onlyNumbers}
                                                 name="no"
                                                 value={formData.no}
-                                                onChange={(value) => handleInputChange('no', value)}
+                                                onChange={chngFn}
                                                 onBlur={handleBlur}
                                                 required
-                                                isInvalid={(validated || touched.no) && (!isNumeric(formData.no))}
+                                                isInvalid={(validated || touched.no)}
                                             />
                                             <Form.Control.Feedback type="invalid">
                                                 எண் தேவைப்படுகிறது
@@ -162,15 +161,16 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="yearEstablished">
                                             <label>மதரஸாவை நிறுவிய ஆண்டு?<span style={{ color: 'red' }}>*</span></label>
-                                            <OnlyNumbersInput
-                                                className="form-control"
+                                            <Form.Control
+                                                className="form-control onlyNumbers"
+                                                onKeyDown={onlyNumbers}
                                                 name="yearEstablished"
                                                 value={formData.yearEstablished}
-                                                onChange={(value) => handleInputChange('yearEstablished', value)}
                                                 onBlur={handleBlur}
+                                                onChange={chngFn}
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.yearEstablished) && (!isNumeric(formData.yearEstablished))
+                                                    (validated || touched.yearEstablished)
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -338,16 +338,16 @@ function MadrasaDetails() {
                                 <div className="col-md-6">
                                     <Form.Group controlId="totalStudents">
                                         <label>மாணவர்களின் மொத்த எண்ணிக்கை  எவ்வளவு? <span style={{ color: 'red' }}>*</span></label>
-                                        <OnlyNumbersInput
+                                        <Form.Group
                                             className="form-control"
                                             type="text"
                                             name="totalStudents"
                                             value={formData.totalStudents}
-                                            onChange={(value) => handleInputChange('totalStudents', value)}
+                                            onChange={chngFn}
                                             onBlur={handleBlur}
                                             required
                                             isInvalid={
-                                                (validated || touched.totalStudents) && (!isNumeric(formData.totalStudents))
+                                                (validated || touched.totalStudents)
                                             }
 
                                         />
@@ -361,17 +361,17 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="hifzClass">
                                             <label>ஹிப்ளு வகுப்பு உள்ளதா? அதன் மாணவர்கள் எண்ணிக்கை? <span style={{ color: 'red' }}>*</span></label>
-                                            <OnlyNumbersInput
+                                            <Form.Group
                                                 className="form-control"
                                                 type="text"
                                                 name="hifzClass"
                                                 value={formData.hifzClass}
-                                                onChange={(value) => handleInputChange('hifzClass', value)}
+                                                onChange={chngFn}
                                                 onBlur={handleBlur}
 
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.hifzClass) && (!isNumeric(formData.hifzClass))
+                                                    (validated || touched.hifzClass)
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -386,16 +386,16 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="arabicClass">
                                             <label>அரபி வகுப்பில் எத்தவன மாணவர்கள்?<span style={{ color: 'red' }}>*</span></label>
-                                            <OnlyNumbersInput
+                                            <Form.Group
                                                 className="form-control"
                                                 type="text"
                                                 name="arabicClass"
                                                 value={formData.arabicClass}
-                                                onChange={(value) => handleInputChange('arabicClass', value)}
+                                                onChange={chngFn}
                                                 onBlur={handleBlur}
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.arabicClass) && (!isNumeric(formData.arabicClass))
+                                                    (validated || touched.arabicClass)
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -433,16 +433,16 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="totalTeachers">
                                             <label>ஆசிரியர்களின்  எண்ணிக்கை எவ்வளவு?<span style={{ color: 'red' }}>*</span> </label>
-                                            <OnlyNumbersInput
+                                            <Form.Group
                                                 className="form-control"
                                                 type="text"
                                                 name="totalTeachers"
                                                 value={formData.totalTeachers}
-                                                onChange={(value) => handleInputChange('totalTeachers', value)}
+                                                onChange={chngFn}
                                                 onBlur={handleBlur}
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.totalTeachers) && (!isNumeric(formData.totalTeachers))
+                                                    (validated || touched.totalTeachers) 
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -455,16 +455,16 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="otherstudent">
                                             <label>மற்ற பணியாளர்களின் எண்ணிக்கை  எவ்வளவு?<span style={{ color: 'red' }}>*</span></label>
-                                            <OnlyNumbersInput
+                                            <Form.Group
                                                 className="form-control"
                                                 type="text"
                                                 name="otherstudent"
                                                 value={formData.otherstudent}
-                                                onChange={(value) => handleInputChange('otherstudent', value)}
+                                                onChange={chngFn}
                                                 onBlur={handleBlur}
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.otherstudent) && (!isNumeric(formData.otherstudent))
+                                                    (validated || touched.otherstudent)
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -517,16 +517,16 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="numberOfDorms">
                                             <label>தங்கும் அறைகள் எத்தனை? <span style={{ color: 'red' }}>*</span></label>
-                                            <OnlyNumbersInput
+                                            <Form.Control
                                                 className="form-control"
                                                 type="text"
                                                 name="numberOfDorms"
                                                 value={formData.numberOfDorms}
-                                                onChange={(value) => handleInputChange('numberOfDorms', value)}
+                                                onChange={chngFn}
                                                 onBlur={handleBlur}
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.numberOfDorms) && (!isNumeric(formData.numberOfDorms))
+                                                    (validated || touched.numberOfDorms)
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -539,16 +539,16 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="numberOfClassrooms">
                                             <label>பாட அறைகள் எத்தனை? <span style={{ color: 'red' }}>*</span></label>
-                                            <OnlyNumbersInput
+                                            <Form.Control
                                                 className="form-control"
                                                 type="text"
                                                 name="numberOfClassrooms"
                                                 value={formData.numberOfClassrooms}
-                                                onChange={(value) => handleInputChange('numberOfClassrooms', value)}
+                                                onChange={chngFn}
                                                 onBlur={handleBlur}
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.numberOfClassrooms) && (!isNumeric(formData.numberOfClassrooms))
+                                                    (validated || touched.numberOfClassrooms)
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
