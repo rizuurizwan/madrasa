@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { isNumeric } from "../../_services/validation";
 import OnlyNumbersInput from '../../_services/OnlyNumbersInput';
+
 function UsersDetail() {
     const [formData, setFormData] = useState({
         name: '',
@@ -43,8 +45,12 @@ function UsersDetail() {
             [name]: true,
         });
     };
+
     const handleInputChange = (field, value) => {
         setFormData({ ...formData, [field]: value });
+    };
+    const isPasswordValid = () => {
+        return formData.password === formData.cnfpassword;
     };
     return (
         <div className="container-fluid px-4">
@@ -78,11 +84,10 @@ function UsersDetail() {
                                                 value={formData.madrasaname}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-                                                pattern="^[a-zA-Z0-9]+$"
                                                 requiredoperatedBy
                                                 isInvalid={
                                                     (validated || touched.madrasaname) &&
-                                                    !/^[a-zA-Z0-9]+$/.test(formData.madrasaname)
+                                                    (formData.madrasaname.trim() == "")
                                                 }
                                             >
                                                 <option value={1}>mohamed bunder </option>
@@ -102,18 +107,16 @@ function UsersDetail() {
                                             <label>பயனர் பெயர்
                                             </label>
                                             <Form.Control
-                                                className="form-control"
                                                 type="text"
                                                 name="name"
                                                 value={formData.name}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-                                                pattern="^[a-zA-Z0-9]+$"
                                                 required
                                                 isInvalid={
                                                     (validated || touched.name) &&
-                                                    !/^[a-zA-Z0-9]+$/.test(formData.name)
-                                                }
+                                                    formData.name.trim() === ""}
+                                                
                                             />
                                             <Form.Control.Feedback type="invalid">
                                                 மதரஸாவின் பெயர் தேவைப்படுகிறது
@@ -131,17 +134,14 @@ function UsersDetail() {
                                                 className="form-control"
                                                 type="password"
                                                 name="password"
+                                                value={formData.password}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-                                                pattern="^[a-zA-Z0-9]+$"
                                                 required
-                                                isInvalid={
-                                                    (validated || touched.password) &&
-                                                    !/^[a-zA-Z0-9]+$/.test(formData.password)
-                                                }
+                                                isInvalid={(validated || touched.password) && (formData.password.trim() == "")}
                                             />
                                             <Form.Control.Feedback type="invalid">
-                                                மதரஸாவின் பெயர் தேவைப்படுகிறது
+                                                {formData.password === "" ? "மதரஸாவின் பெயர் தேவைப்படுகிறது" : "Invalid password"}
                                             </Form.Control.Feedback>
                                         </Form.Group>
                                     </div>
@@ -149,8 +149,7 @@ function UsersDetail() {
                                 <div className="col-md-6">
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="cnfpassword">
-                                            <label>கடவுச்சொல்லை உறுதிப்படுத்தவும்
-                                            </label>
+                                            <label>கடவுச்சொல்லை உறுதிப்படுத்தவும்</label>
                                             <Form.Control
                                                 className="form-control"
                                                 type="password"
@@ -158,15 +157,18 @@ function UsersDetail() {
                                                 value={formData.cnfpassword}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-                                                pattern="^[a-zA-Z0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    validated &&
-                                                    formData.confimPass !== formData.cnfpassword
+                                                    (validated || touched.cnfpassword) && (!isPasswordValid() || (formData.cnfpassword.trim() == ""))
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
-                                                மதரஸாவின் பெயர் தேவைப்படுகிறது
+                                                {formData.cnfpassword === ""
+                                                    ? "மதரஸாவின் பெயர் தேவைப்படுகிறது"
+                                                    : !isPasswordValid()
+                                                        ? "கடவுச்சொற்கள் பொருந்தவில்லை"
+                                                        : "Invalid confirmation password"
+                                                }
                                             </Form.Control.Feedback>
                                         </Form.Group>
                                     </div>
@@ -183,17 +185,15 @@ function UsersDetail() {
                                                 value={formData.email}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-                                                pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$"
                                                 required
                                                 isInvalid={
                                                     (validated || touched.email) &&
-                                                    !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(formData.email)
+                                                    (formData.email.trim() == "")
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
                                                 மின்னஞ்சல் தரவுப் பொருந்தவில்லை.
                                             </Form.Control.Feedback>
-
                                         </Form.Group>
                                     </div>
                                 </div>
@@ -203,17 +203,17 @@ function UsersDetail() {
                                             <label>தொலைபேசி எண்
                                             </label>
                                             <OnlyNumbersInput
+                                                maxlength="10"
                                                 className="form-control"
                                                 type="text"
                                                 name="phoneNumber"
                                                 value={formData.phoneNumber}
                                                 onChange={(value) => handleInputChange('phoneNumber', value)}
                                                 onBlur={handleBlur}
-                                                pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
                                                     (validated || touched.phoneNumber) &&
-                                                    !/^[0-9]+$/.test(formData.phoneNumber)
+                                                    !isNumeric(formData.phoneNumber)
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">

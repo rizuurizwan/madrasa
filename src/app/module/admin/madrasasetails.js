@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import OnlyNumbersInput from '../../_services/OnlyNumbersInput';
+import { isNumeric } from "../../_services/validation";
 function MadrasaDetails() {
 
     const [validated, setValidated] = useState(false);
@@ -35,18 +36,7 @@ function MadrasaDetails() {
         gateKeeper: false,
         minuteBook: false,
     });
-    const integerFields = [
-        'no',
-        'yearEstablished',
-        'totalStudents',
-        'hifzClass',
-        'arabicClass',
-        'tahseelClass',
-        'totalTeachers',
-        'otherstudent',
-        'numberOfDorms',
-        'numberOfClassrooms'
-    ];
+    
     const submitFn = (event) => {
         event.preventDefault();
         const form = event.currentTarget;
@@ -64,10 +54,11 @@ function MadrasaDetails() {
         const { name, type, checked, value } = event.target;
         setFormData({
             ...formData,
-            [name]: type === "checkbox" ? checked : integerFields.includes(name) ? (value === "" ? "" : parseInt(value, 10)) : value,
+            [name]: type === "checkbox" ? checked : value,
 
         });
     };
+
 
     const handleBlur = (event) => {
         const { name } = event.target;
@@ -80,8 +71,6 @@ function MadrasaDetails() {
     const handleInputChange = (field, value) => {
         setFormData({ ...formData, [field]: value });
     };
-
-
 
     return (
 
@@ -114,7 +103,7 @@ function MadrasaDetails() {
                                                 onChange={(value) => handleInputChange('no', value)}
                                                 onBlur={handleBlur}
                                                 required
-                                                isInvalid={(validated || touched.no) && !/^[0-9]*$/.test(formData.no)}
+                                                isInvalid={(validated || touched.no) && (!isNumeric(formData.no))}
                                             />
                                             <Form.Control.Feedback type="invalid">
                                                 எண் தேவைப்படுகிறது
@@ -157,11 +146,10 @@ function MadrasaDetails() {
                                                 value={formData.madrasaName}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-                                                pattern="^[a-zA-Z0-9]+$"
                                                 required
                                                 isInvalid={
                                                     (validated || touched.madrasaName) &&
-                                                    !/^[a-zA-Z0-9]+$/.test(formData.madrasaName)
+                                                    (formData.madrasaName.trim() == "")
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -176,15 +164,13 @@ function MadrasaDetails() {
                                             <label>மதரஸாவை நிறுவிய ஆண்டு?<span style={{ color: 'red' }}>*</span></label>
                                             <OnlyNumbersInput
                                                 className="form-control"
-                                                type="text"
                                                 name="yearEstablished"
                                                 value={formData.yearEstablished}
                                                 onChange={(value) => handleInputChange('yearEstablished', value)}
                                                 onBlur={handleBlur}
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.yearEstablished) && (
-                                                        !/^[0-9]*$/.test(formData.yearEstablished))
+                                                    (validated || touched.yearEstablished) && (!isNumeric(formData.yearEstablished))
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -207,11 +193,10 @@ function MadrasaDetails() {
                                                 value={formData.operatedBy}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-                                                pattern="^[a-zA-Z0-9]+$"
                                                 required
                                                 isInvalid={
                                                     (validated || touched.operatedBy) &&
-                                                    !/^[a-zA-Z0-9]+$/.test(formData.operatedBy)
+                                                    (formData.operatedBy.trim() == "")
                                                 }
                                             >
                                                 <option value={1}>தனி நபர்</option>
@@ -229,17 +214,15 @@ function MadrasaDetails() {
                                         <Form.Group controlId="landDetails">
                                             <label>மதரஸரவின் நிலம் தொடர்பான  விவரங்கள், அதாவது அது சொந்தமானதா?<span style={{ color: 'red' }}>*</span></label>
                                             <Form.Control
-                                                className="form-control"
                                                 type="text"
                                                 name="landDetails"
                                                 value={formData.landDetails}
-                                                pattern="^[a-zA-Z0-9]+$"
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
                                                 required
                                                 isInvalid={
                                                     (validated || touched.landDetails) &&
-                                                    !/^[a-zA-Z0-9]+$/.test(formData.landDetails)
+                                                    (formData.landDetails.trim() == "")
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -362,11 +345,9 @@ function MadrasaDetails() {
                                             value={formData.totalStudents}
                                             onChange={(value) => handleInputChange('totalStudents', value)}
                                             onBlur={handleBlur}
-                                            pattern="^[0-9]+$"
                                             required
                                             isInvalid={
-                                                (validated || touched.totalStudents) && (
-                                                    !/^[0-9]*$/.test(formData.totalStudents))
+                                                (validated || touched.totalStudents) && (!isNumeric(formData.totalStudents))
                                             }
 
                                         />
@@ -390,8 +371,7 @@ function MadrasaDetails() {
 
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.hifzClass) &&
-                                                    !/^[a-zA-Z0-9]+$/.test(formData.hifzClass)
+                                                    (validated || touched.hifzClass) && (!isNumeric(formData.hifzClass))
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -413,11 +393,9 @@ function MadrasaDetails() {
                                                 value={formData.arabicClass}
                                                 onChange={(value) => handleInputChange('arabicClass', value)}
                                                 onBlur={handleBlur}
-                                                pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.arabicClass) && (
-                                                        !/^[0-9]*$/.test(formData.arabicClass))
+                                                    (validated || touched.arabicClass) && (!isNumeric(formData.arabicClass))
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -437,9 +415,11 @@ function MadrasaDetails() {
                                                 value={formData.tahseelClass}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-                                                pattern="^[a-zA-Z0-9]+$"
                                                 required
-                                                isInvalid={(validated || touched.tahseelClass) && !/^[a-zA-Z0-9]+$/.test(formData.tahseelClass)}
+                                                isInvalid={
+                                                    (validated || touched.tahseelClass) &&
+                                                    (formData.tahseelClass.trim() == "")
+                                                }
                                             />
                                             <Form.Control.Feedback type="invalid">
                                                 தஹ்ஸீல் வகுப்பு தேவைப்படுகிறது
@@ -460,11 +440,9 @@ function MadrasaDetails() {
                                                 value={formData.totalTeachers}
                                                 onChange={(value) => handleInputChange('totalTeachers', value)}
                                                 onBlur={handleBlur}
-                                                pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.totalTeachers) && (
-                                                        !/^[0-9]*$/.test(formData.totalTeachers))
+                                                    (validated || touched.totalTeachers) && (!isNumeric(formData.totalTeachers))
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -484,11 +462,9 @@ function MadrasaDetails() {
                                                 value={formData.otherstudent}
                                                 onChange={(value) => handleInputChange('otherstudent', value)}
                                                 onBlur={handleBlur}
-                                                pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.otherstudent) && (
-                                                        !/^[0-9]*$/.test(formData.otherstudent))
+                                                    (validated || touched.otherstudent) && (!isNumeric(formData.otherstudent))
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -548,11 +524,9 @@ function MadrasaDetails() {
                                                 value={formData.numberOfDorms}
                                                 onChange={(value) => handleInputChange('numberOfDorms', value)}
                                                 onBlur={handleBlur}
-                                                pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.numberOfDorms) && (
-                                                        !/^[0-9]*$/.test(formData.numberOfDorms))
+                                                    (validated || touched.numberOfDorms) && (!isNumeric(formData.numberOfDorms))
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">
@@ -572,11 +546,9 @@ function MadrasaDetails() {
                                                 value={formData.numberOfClassrooms}
                                                 onChange={(value) => handleInputChange('numberOfClassrooms', value)}
                                                 onBlur={handleBlur}
-                                                pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.numberOfClassrooms) && (
-                                                        !/^[0-9]*$/.test(formData.numberOfClassrooms))
+                                                    (validated || touched.numberOfClassrooms) && (!isNumeric(formData.numberOfClassrooms))
                                                 }
                                             />
                                             <Form.Control.Feedback type="invalid">

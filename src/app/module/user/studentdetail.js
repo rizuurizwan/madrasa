@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import OnlyNumbersInput from '../../_services/OnlyNumbersInput';
+import { isNumeric } from "../../_services/validation";
+
 function StudentDetail() {
     const [validated, setValidated] = useState(false);
     const [touched, setTouched] = useState({});
@@ -49,6 +52,10 @@ function StudentDetail() {
             ...touched,
             [name]: true,
         });
+    };
+
+    const handleInputChange = (field, value) => {
+        setFormData({ ...formData, [field]: value });
     };
 
     return (
@@ -115,25 +122,15 @@ function StudentDetail() {
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3 mb-md-0">
                                         <label>வயது</label>
-                                        <Form.Control
+                                        <OnlyNumbersInput
                                             className="form-control"
                                             type="text"
                                             name="age"
                                             value={formData.age}
-                                            pattern="^[0-9]+$"
-                                            onChange={(e) => {
-                                                const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                setFormData({
-                                                    ...formData,
-                                                    age: input,
-                                                });
-                                            }}
+                                            onChange={(value) => handleInputChange('age', value)}
                                             onBlur={handleBlur}
                                             required
-                                            isInvalid={
-                                                (validated || touched.age) && (!formData.age.trim() ||
-                                                    !/^[0-9]*$/.test(formData.age))
-                                            }
+                                            isInvalid={(validated || touched.age) && (!isNumeric(formData.age))}
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             வயது தேவைப்படுகிறது
@@ -164,19 +161,19 @@ function StudentDetail() {
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3 mb-md-0">
                                         <label htmlFor='pin'>அஞ்சல் குறியீடு</label>
-                                        <Form.Control
+                                        <OnlyNumbersInput
                                             id='pin'
                                             className="form-control"
-                                            type="number"
+                                            type="text"
                                             name="pin"
                                             value={formData.pin}
-                                            onChange={chngFn}
+                                            onChange={(value) => handleInputChange('pin', value)}
                                             onBlur={handleBlur}
                                             required
-                                            isInvalid={(validated || touched.pin) && formData.pin.trim() === ""}
+                                            isInvalid={(validated || touched.pin) && (!isNumeric(formData.pin))}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            {formData.pin.trim() === "" && "அஞ்சல் குறியீடு தேவைப்படுகிறது"}
+                                            {"அஞ்சல் குறியீடு தேவைப்படுகிறது"}
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                 </div>
@@ -308,19 +305,19 @@ function StudentDetail() {
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3 mb-md-0">
                                         <label htmlFor='monthlyDonation'>மாதாந்திர நன்கொடை</label>
-                                        <Form.Control
+                                        <OnlyNumbersInput
                                             id='monthlyDonation'
                                             className="form-control"
-                                            type="number"
+                                            type="text"
                                             name="monthlyDonation"
                                             value={formData.monthlyDonation}
-                                            onChange={chngFn}
+                                            onChange={(value) => handleInputChange('monthlyDonation', value)}
                                             onBlur={handleBlur}
                                             required
-                                            isInvalid={(validated || touched.monthlyDonation) && formData.monthlyDonation.trim() === ""}
+                                            isInvalid={(validated || touched.monthlyDonation) && (!isNumeric(formData.monthlyDonation))}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            {formData.monthlyDonation.trim() === "" && "மாதாந்திர நன்கொடை தேவைப்படுகிறது"}
+                                            {"மாதாந்திர நன்கொடை தேவைப்படுகிறது"}
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                 </div>
@@ -329,19 +326,19 @@ function StudentDetail() {
                                 <div className="col-md-6">
                                     <Form.Group className="mb-3 mb-md-0">
                                         <label htmlFor='phoneNumber'>தொலைபேசி எண்</label>
-                                        <Form.Control
+                                        <OnlyNumbersInput
                                             id='phoneNumber'
                                             className="form-control"
                                             type="tel"
                                             name="phoneNumber"
                                             value={formData.phoneNumber}
-                                            onChange={chngFn}
+                                            onChange={(value) => handleInputChange('phoneNumber', value)}
                                             onBlur={handleBlur}
                                             required
-                                            isInvalid={(validated || touched.phoneNumber) && formData.phoneNumber.trim() === ""}
+                                            isInvalid={(validated || touched.monthlyDonation) && (!isNumeric(formData.monthlyDonation))}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            {formData.phoneNumber.trim() === "" && "தொலைபேசி எண் தேவைப்படுகிறது"}
+                                            {"தொலைபேசி எண் தேவைப்படுகிறது"}
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                 </div>
