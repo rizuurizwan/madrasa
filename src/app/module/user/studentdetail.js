@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 function StudentDetail() {
     const [validated, setValidated] = useState(false);
     const [touched, setTouched] = useState({});
 
-    const PinkCardHeader = styled.div`
-    background: radial-gradient(circle at 10% 20%, rgb(87, 108, 117) 0%, rgb(37, 50, 55) 100.2%);`;
-    
-    
     const [formData, setFormData] = useState({
         name: '',
         birthDate: '',
@@ -39,7 +34,7 @@ function StudentDetail() {
 
         setValidated(true);
     };
-    
+
     const chngFn = (event) => {
         const { name, type, checked, value } = event.target;
         setFormData({
@@ -58,19 +53,23 @@ function StudentDetail() {
 
     return (
         <div className="container-fluid px-4">
-            <div className="d-flex top-bar justify-content-between align-items-center">
-                <h4 className="mt-p6 mb-0 sm_page_head">
-                    <span className="pagetitcolr">மாணவர் பற்றிய விபரங்கள்</span>
-                    </h4>
-            </div>
+            <Form noValidate validated={validated} onSubmit={submitFn}>
+                <div className="d-flex justify-content-between align-items-center top-bar" style={{ width: '1900px' }}>
+                    <div className="sm_50p">
+                        <h4 className="mt-p6 mb-0 sm_page_head">மாணவர் விவரங்கள்</h4>
+                    </div>
+                    <div className="float-end">
+                        <Link className="btn btn-primary me-2" to="/main/studentlist">மதரஸா பட்டியல்</Link>
+                        <button type="submit" className="btn btn-primary">சேமிக்க</button>
+                    </div>
+                </div>
+                <div className="content">
 
-            <div className="content pagecolor">
-                <Form noValidate validated={validated} onSubmit={submitFn}>
                     <div className="card mb-4">
-                        <PinkCardHeader  className="card-header d-flex align-items-right pink-card-header">
-                            <span className="pagetitcolr">மாணவர் பற்றிய விபரங்கள்</span>
-                            <button type="submit" style={{ marginLeft: 'auto' }} className="btn btn-primary ml-auto">சேமிக்க</button>
-                        </PinkCardHeader >
+                        <div className="card-header d-flex align-items-right">
+                            <span>மாணவர் பற்றிய விபரங்கள்</span>
+                            
+                        </div>
                         <div className="card-body form">
                             <div className="row mb-3">
                                 <div className="col-md-6">
@@ -283,27 +282,27 @@ function StudentDetail() {
                             </div>
                             <div className="row mb-3">
                                 <div className="col-md-6">
-                                <Form.Group className="mb-3 mb-md-0">
-                                    <label htmlFor='desiredSection'>தேவைப்படும் பிரிவு</label>
-                                    <Form.Control
-                                        id='desiredSection'
-                                        className="form-control"
-                                        as="select"
-                                        name="desiredSection"
-                                        value={formData.desiredSection}
-                                        onChange={chngFn}
-                                        onBlur={handleBlur}
-                                        required
-                                        isInvalid={(validated || touched.desiredSection) && formData.desiredSection.trim() === ""}
-                                    >
-                                        <option value="">தேர்ந்தெடுக்கவும்</option>
-                                        <option value="Hifz">ஹிப்ளு</option>
-                                        <option value="Arabic">அரபி</option>
-                                    </Form.Control>
-                                    <Form.Control.Feedback type="invalid">
-                                        {formData.desiredSection.trim() === "" && "தேவைப்படும் பிரிவு தேவைப்படுகிறது"}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
+                                    <Form.Group className="mb-3 mb-md-0">
+                                        <label htmlFor='desiredSection'>தேவைப்படும் பிரிவு</label>
+                                        <Form.Control
+                                            id='desiredSection'
+                                            className="form-control"
+                                            as="select"
+                                            name="desiredSection"
+                                            value={formData.desiredSection}
+                                            onChange={chngFn}
+                                            onBlur={handleBlur}
+                                            required
+                                            isInvalid={(validated || touched.desiredSection) && formData.desiredSection.trim() === ""}
+                                        >
+                                            <option value="">தேர்ந்தெடுக்கவும்</option>
+                                            <option value="Hifz">ஹிப்ளு</option>
+                                            <option value="Arabic">அரபி</option>
+                                        </Form.Control>
+                                        <Form.Control.Feedback type="invalid">
+                                            {formData.desiredSection.trim() === "" && "தேவைப்படும் பிரிவு தேவைப்படுகிறது"}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
                                 </div>
 
                                 <div className="col-md-6">
@@ -369,10 +368,26 @@ function StudentDetail() {
                             </div>
                         </div>
                     </div>
-                </Form>
-            </div>
+
+                </div>
+            </Form>
         </div>
     );
 }
 
 export default StudentDetail;
+
+/* If field no need validation look like this*/
+// <div className="col-md-6">
+//     <Form.Group className="mb-3 mb-md-0">
+//         <label htmlFor='name'>பெயர்: <span style={{ color: 'red' }}>*</span></label>
+//         <Form.Control
+//             id='name'
+//             className="form-control"
+//             type="text"
+//             name="name"
+//             value={formData.name}
+//             onChange={chngFn}
+//         />
+//     </Form.Group>
+// </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
+import OnlyNumbersInput from '../../_services/OnlyNumbersInput';
 function UsersDetail() {
     const [formData, setFormData] = useState({
         name: '',
@@ -11,7 +12,7 @@ function UsersDetail() {
         phoneNumber: '',
     });
     const [validated, setValidated] = useState(false);
-    const [submit, setSubmit] = useState(false);
+    //const [submit, setSubmit] = useState(false);
     const [touched, setTouched] = useState({})
     const submitFn = (event) => {
         event.preventDefault();
@@ -42,18 +43,27 @@ function UsersDetail() {
             [name]: true,
         });
     };
+    const handleInputChange = (field, value) => {
+        setFormData({ ...formData, [field]: value });
+    };
     return (
         <div className="container-fluid px-4">
-            <div className="d-flex top-bar justify-content-between align-items-center">
-                <h4 className="mt-p6 mb-0 sm_page_head">Users Details</h4>
-            </div>
+            <Form noValidate validated={validated} onSubmit={submitFn}>
+                <div className="d-flex justify-content-between align-items-center top-bar" style={{ width: '90%' }}>
+                    <div className="sm_40p">
+                        <h4 className="mt-p6 mb-0 sm_page_head">மதரஸா விவரங்கள்</h4>
+                    </div>
+                    <div className="float-end">
+                        <Link className="btn btn-primary me-2" to="/main/userslist">மதரஸா பட்டியல்</Link>
+                        <button type="submit" className="btn btn-primary">சேமிக்க</button>
+                    </div>
+                </div>
 
-            <div className="content">
-                <Form noValidate validated={validated} onSubmit={submitFn}>
+                <div className="content">
+
                     <div className="card mb-4" >
                         <div className="card-header d-flex align-items-right" >
                             <span>Users Details</span>
-                            <button type="submit" style={{ marginLeft: 1500 }} className="btn btn-primary ml-auto">Save</button>
                         </div>
                         <div className="card-body form">
                             <div className="row mb-3">
@@ -192,18 +202,12 @@ function UsersDetail() {
                                         <Form.Group controlId="phoneNumber">
                                             <label>தொலைபேசி எண்
                                             </label>
-                                            <Form.Control
+                                            <OnlyNumbersInput
                                                 className="form-control"
                                                 type="text"
                                                 name="phoneNumber"
                                                 value={formData.phoneNumber}
-                                                onChange={(e) => {
-                                                    const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                    setFormData({
-                                                        ...formData,
-                                                        phoneNumber: input,
-                                                    });
-                                                }}
+                                                onChange={(value) => handleInputChange('phoneNumber', value)}
                                                 onBlur={handleBlur}
                                                 pattern="^[0-9]+$"
                                                 required
@@ -221,8 +225,9 @@ function UsersDetail() {
                             </div>
                         </div>
                     </div>
-                </Form>
-            </div>
+
+                </div>
+            </Form>
         </div>
     );
 }

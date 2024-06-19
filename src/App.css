@@ -1,3 +1,8 @@
+:root {
+  --themecolr1: radial-gradient(circle at 10% 20%, rgb(87, 108, 117) 0%, rgb(37, 50, 55) 100.2%);
+  --themecolr2 : black;
+}
+
 .dataTable-wrapper.no-header .dataTable-container {
   border-top: 1px solid #d9d9d9;
 }
@@ -3782,8 +3787,8 @@ fieldset:disabled .btn {
 
 .btn-danger {
   color: #fff;
-  background-color: #ff0018;
-  border-color: #ff0018;
+  background-color: var(--themecolr2);
+  border-color: var(--themecolrz);
 }
 
 .btn-danger:hover {
@@ -12798,7 +12803,7 @@ body {
 }
 
 .login-main {
-  background: #fff url( ./assets/images/logbg1.png) repeat center;
+  background: #fff url(./assets/images/logbg1.png) repeat center;
 }
 
 .sb-sidenav-menu .nav ul li .svg-inline--fa {
@@ -12823,9 +12828,9 @@ table .fas {
   margin-left: -25px;
   padding-left: 25px;
   margin-right: -25px;
-  padding-right: 25px;  
-  background:  gray;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding-right: 25px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #efefef;
   position: fixed;
   width: inherit;
   z-index: 9;
@@ -13092,7 +13097,7 @@ table .fas {
 }
 
 .login-logo {
-  background: url( ./assets/images/login_logo.png) center center no-repeat;
+  background: url(./assets/images/login_logo.png) center center no-repeat;
   width: 181px;
   height: 86px;
   display: block;
@@ -13142,7 +13147,7 @@ table .fas {
 }
 
 .FtAyuniLogo {
-  background: url( ./assets/images/alia-logo.png) no-repeat right;
+  background: url(./assets/images/alia-logo.png) no-repeat right;
   display: block;
   width: 90px;
   height: 19px;
@@ -13383,49 +13388,49 @@ ul.qmenu li a.active {
 }
 
 .company {
-  background: url( ./assets/images/company.png) center center no-repeat;
+  background: url(./assets/images/company.png) center center no-repeat;
   width: 91px;
   height: 92px;
 }
 
 .user_groups {
-  background: url( ./assets/images/user_groups.png) 0rem 0rem no-repeat;
+  background: url(./assets/images/user_groups.png) 0rem 0rem no-repeat;
   width: 113px;
   height: 81px;
 }
 
 .users {
-  background: url( ./assets/images/users.png) 0rem 0rem no-repeat;
+  background: url(./assets/images/users.png) 0rem 0rem no-repeat;
   width: 70px;
   height: 72px;
 }
 
 .accounting_period {
-  background: url( ./assets/images/accounting_period.png) 0rem 0rem no-repeat;
+  background: url(./assets/images/accounting_period.png) 0rem 0rem no-repeat;
   width: 70px;
   height: 72px;
 }
 
 .account_dimensions {
-  background: url( ./assets/images/account_dimensions.png) 0rem 0rem no-repeat;
+  background: url(./assets/images/account_dimensions.png) 0rem 0rem no-repeat;
   width: 70px;
   height: 72px;
 }
 
 .accounting_tree {
-  background: url( ./assets/images/accounting_tree.png) 0rem 0rem no-repeat;
+  background: url(./assets/images/accounting_tree.png) 0rem 0rem no-repeat;
   width: 70px;
   height: 72px;
 }
 
 .reports {
-  background: url( ./assets/images/reports.png) 0rem 0rem no-repeat;
+  background: url(./assets/images/reports.png) 0rem 0rem no-repeat;
   width: 70px;
   height: 72px;
 }
 
 .end_year_settings {
-  background: url( ./assets/images/end_year_settings.png) 0rem 0rem no-repeat;
+  background: url(./assets/images/end_year_settings.png) 0rem 0rem no-repeat;
   width: 70px;
   height: 72px;
 }
@@ -13487,7 +13492,7 @@ input[type="checkbox"] {
 }
 
 .client_logo {
-  background: url( ./assets/images/client_logo.jpg) left center no-repeat;
+  background: url(./assets/images/client_logo.jpg) left center no-repeat;
   width: 106px;
   height: 55px;
   display: block;
@@ -13825,7 +13830,7 @@ table.dataTable tbody td:last-child {
 }
 
 .image-del {
-  background: url( ./assets/images/Close-Red-Sm.png) no-repeat;
+  background: url(./assets/images/Close-Red-Sm.png) no-repeat;
   width: 18px;
   height: 18px;
   cursor: pointer;
@@ -13922,16 +13927,16 @@ ul.qmenu li i {
 }
 
 
-.gradient-green{
+.gradient-green {
   background: linear-gradient(179.2deg, rgb(34, 34, 34) 0%, rgb(8, 0, 153) 29.7%, rgb(118, 6, 166) 63.4%, rgba(233, 0, 64, 0.58) 100.1%);
   color: #fff;
 }
 
-.greenclr{
+.greenclr {
   background-color: green;
 }
 
-.width200{
+.width200 {
   max-width: 200px;
 }
 
@@ -13980,15 +13985,18 @@ ul.qmenu li i {
   width: 30px;
 }
 
-.ToogleBtn.swtch2 input:checked + label {
+.ToogleBtn.swtch2 input:checked+label {
   background: #70b603;
 }
-.ToogleBtn input:checked + label {
+
+.ToogleBtn input:checked+label {
   background: #009966;
 }
+
 .ToogleBtn.swtch2 label {
   background: #ff0000;
 }
+
 .ToogleBtn.swtchred input:checked+label {
   background-color: red;
 }
@@ -14011,25 +14019,21 @@ ul.qmenu li i {
   z-index: 9998;
 }
 
-.mrgnlft10{
+.mrgnlft10 {
   margin-left: 10px;
 }
 
-.greencolor{
-  color : green
-}
-
-.pagetitcolr{
-  color: white;
+.pagetitcolr {
+  color: black;
 }
 
 
 .gradient-custom {
   /* fallback for old browsers */
-  background: radial-gradient(circle at 10% 20%, rgb(87, 108, 117) 0%, rgb(37, 50, 55) 100.2%);
+  background: var(--themecolr1);
 }
 
-.menuicon{
+.menuicon {
   color: white;
 }
 
@@ -14038,9 +14042,13 @@ ul.qmenu li i {
 }
 
 
-h2.acc_trigger{
-  background: radial-gradient(circle at 10% 20%, rgb(87, 108, 117) 0%, rgb(37, 50, 55) 100.2%);
-  border-bottom: 1px solid radial-gradient(circle at 10% 20%, rgb(87, 108, 117) 0%, rgb(37, 50, 55) 100.2%);
+h2.acc_trigger {
+  background: var(--themecolr1);
+  border-bottom: 1px solid var(--themecolr1);
+}
+
+.selectedcolor{
+  background: var(--themecolr1);
 }
 
 h2.acc_trigger:hover,
@@ -14050,12 +14058,20 @@ h2.acc_trigger.active {
   padding: 10px;
 }
 
-.menuicon:hover{
+.menuicon:hover {
   text-decoration: none;
   color: red;
 }
 
-.pagecolor{
-  background-color: black;
-  color: white;
+
+.menuicon {
+  color: black;
+}
+
+.greencolor{
+  color : green;
+}
+
+.btnclr{
+  background: var(--themecolr2);
 }

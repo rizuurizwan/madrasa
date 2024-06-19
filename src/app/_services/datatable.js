@@ -1,16 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExport } from '@fortawesome/free-solid-svg-icons';
+import themeFile from './theme.json'
+// const themeData = {
+//     data: [
+//         {
+//             id: 1,
+//             name: "Black",
+//             themecolor: "radial-gradient(circle at 10% 20%, rgb(87, 108, 117) 0%, rgb(37, 50, 55) 100.2%)",
+//             header: "rgb(87, 108, 117)"
+//         },
+//         {
+//             id: 2,
+//             name: "Pink",
+//             themecolor: "linear-gradient(to top, #c471f5 0%, #fa71cd 100%)",
+//             header: "#c471f5"
+//         },
+//         {
+//             id: 3,
+//             name: "Blue",
+//             themecolor: "linear-gradient(179.2deg, rgb(21, 21, 212) 0.9%, rgb(53, 220, 243) 95.5%)",
+//             header: "rgb(21, 21, 212)"
+//         },
+//         {
+//             id: 4,
+//             name: "Green",
+//             themecolor: "radial-gradient(circle at 10% 20%, rgb(4, 159, 108) 0%, rgb(194, 254, 113) 90.1%)",
+//             header: "rgb(4, 159, 108)"
+//         },
+//         {
+//             id: 5,
+//             name: "Orange",
+//             themecolor: "radial-gradient(circle at 10% 20%, rgba(239, 87, 87, 0.74) 0%, rgba(245, 123, 13, 0.74) 90.2%)",
+//             header: "rgba(239, 87, 87, 0.74)"
+//         }
+//     ]
+// };
 
-function getNumberOfPages(rowCount, rowsPerPage) {
+const getNumberOfPages = (rowCount, rowsPerPage) => {
     return Math.ceil(rowCount / rowsPerPage);
 }
 
-function toPages(pages) {
+const toPages = (pages) => {
     const results = [];
-    for (let i = 1; i <= pages; i++) { // Changed the loop condition to i <= pages
+    for (let i = 1; i <= pages; i++) {
         results.push(i);
     }
     return results;
@@ -20,7 +55,7 @@ export const handleSearch = (filterRecords) => {
     const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
 
     if (searchTerm === '') {
-        return (filterRecords); // Reset to original data if search term is empty
+        return filterRecords; // Reset to original data if search term is empty
     } else {
         const newData = filterRecords.filter(row => {
             // Check if any property in the row object contains the search term
@@ -29,7 +64,7 @@ export const handleSearch = (filterRecords) => {
                 (typeof value === 'number' && String(value).includes(searchTerm))
             );
         });
-        return newData
+        return newData;
     }
 };
 
@@ -37,7 +72,7 @@ const BootyPagination = ({
     rowsPerPage,
     rowCount,
     onChangePage,
-    onChangeRowsPerPage, // available but not used here
+    onChangeRowsPerPage,
     currentPage
 }) => {
     const handleBackButtonClick = () => {
@@ -58,8 +93,8 @@ const BootyPagination = ({
 
     const pages = getNumberOfPages(rowCount, rowsPerPage);
     const pageItems = toPages(pages);
-    const nextDisabled = currentPage === pages; // Changed from pageItems.length to pages
-    const previousDisabled = currentPage === 1; // Fixed typo
+    const nextDisabled = currentPage === pages;
+    const previousDisabled = currentPage === 1;
 
     return (
         <nav className="d-flex justify-content-between align-items-center">
@@ -121,7 +156,6 @@ const BootyPagination = ({
 };
 
 const exportCSV = (columns, data, title) => {
-    debugger
     const csvRows = [];
 
     // Get the headers
@@ -150,42 +184,46 @@ const exportCSV = (columns, data, title) => {
     document.body.removeChild(a);
 }
 
-export const customStyles = {
-    headRow: {
-        style: {
-            background: "radial-gradient(circle at 10% 20%, rgb(87, 108, 117) 0%, rgb(37, 50, 55) 100.2%)",
-            color: 'white',
-        }
-    },
-    headCells: {
-        style: {
-            fontSize: "16px",
-            fontWeight: 'bold',
-            //textTransform: 'uppercase',
-        }
-    },
-    cells: {
-        style: {
-            fontSize: '15px',
-        }
-    },
-};
-
-
 const CustomDataTable = ({ columns, data, title }) => {
+
+    const [selectedColor, setSelectedColor] = useState('radial-gradient(circle at 10% 20%, rgb(87, 108, 117) 0%, rgb(37, 50, 55) 100.2%)');
+
+    useEffect(() => {
+        const themeData = themeFile.themeData;
+        const color = sessionStorage.getItem('themes');
+        const selectedTheme = themeData.find(theme => theme.id === parseInt(color));
+        if (selectedTheme) {
+            setSelectedColor(selectedTheme.themecolor);
+        }
+    }, []);
+
+    const customStyles = {
+        headRow: {
+            style: {
+                background: selectedColor,
+                color: 'white',
+            }
+        },
+        headCells: {
+            style: {
+                fontSize: "16px",
+                fontWeight: 'bold',
+            }
+        },
+        cells: {
+            style: {
+                fontSize: '15px',
+            }
+        },
+    };
+
     return (
         <div className='table-responsive'>
             <div className="d-flex justify-content-end mb-2" style={{ marginRight: "20px" }}>
-                {/* <button 
-                    className="btn btn-primary"
-                    onClick={() => exportCSV(columns, data, title)}
-                ><FontAwesomeIcon icon={faFileExport} style={{color: "#ffffff",}} />    Export CSV
-                </button> */}
             </div>
             <DataTable
                 columns={columns}
                 data={data}
-                //title={title}
                 direction="auto"
                 fixedHeader
                 fixedHeaderScrollHeight="600px"

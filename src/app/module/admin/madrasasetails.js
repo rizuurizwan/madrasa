@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
+import OnlyNumbersInput from '../../_services/OnlyNumbersInput';
 function MadrasaDetails() {
 
     const [validated, setValidated] = useState(false);
-    const [submit, setSubmit] = useState(false);
+    //const [submit, setSubmit] = useState(false);
     const [touched, setTouched] = useState({});
     const [formData, setFormData] = useState({
-        no:null, // Parse the value to an integer
+        no: null, // Parse the value to an integer
         date: "",
         madrasaName: "",
         yearEstablished: "",
@@ -64,7 +65,7 @@ function MadrasaDetails() {
         setFormData({
             ...formData,
             [name]: type === "checkbox" ? checked : integerFields.includes(name) ? (value === "" ? "" : parseInt(value, 10)) : value,
-        
+
         });
     };
 
@@ -76,22 +77,29 @@ function MadrasaDetails() {
         });
     };
 
+    const handleInputChange = (field, value) => {
+        setFormData({ ...formData, [field]: value });
+    };
+
+
 
     return (
 
         <div className="container-fluid px-4">
-            <div className="d-flex top-bar">
-                <div className="float-start sm_50p">
-                    <h4 className="mt-p6 mb-0 sm_page_head">மதரஸா விவரங்கள்
-                    </h4>
+            <Form noValidate validated={validated} onSubmit={submitFn}>
+                <div className="d-flex justify-content-between align-items-center top-bar" style={{ width: '1900px' }}>
+                    <div className="sm_50p">
+                        <h4 className="mt-p6 mb-0 sm_page_head">மதரஸா விவரங்கள்</h4>
+                    </div>
+                    <div className="float-end">
+                        <Link className="btn btn-primary me-2" to="/main/madrasalist">மதரஸா பட்டியல்</Link>
+                        <button type="submit" className="btn btn-primary">சேமிக்க</button>
+                    </div>
                 </div>
-            </div>
-            <div className="content">
-                <Form noValidate validated={validated} onSubmit={submitFn}>
+                <div className="content">
                     <div className="card mb-4">
                         <div className="card-header d-flex justify-content-between align-items-center">
                             <span>மதரஸா விவரங்கள்</span>
-                            <button type="submit" className="btn btn-primary">சேமிக்க</button>
                         </div>
                         <div className="card-body form">
                             <div className="row mb-3">
@@ -99,23 +107,14 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="no">
                                             <label>எண்:<span style={{ color: 'red' }}>*</span></label>
-                                            <Form.Control
-                                                type="text"
+                                            <OnlyNumbersInput
+                                                className="form-control"
                                                 name="no"
                                                 value={formData.no}
-                                                onChange={(e) => {
-                                                    const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                    setFormData({
-                                                        ...formData,
-                                                        no: input,
-                                                    });
-                                                }}
+                                                onChange={(value) => handleInputChange('no', value)}
                                                 onBlur={handleBlur}
-                                                pattern="^[0-9]*$"
                                                 required
-                                                isInvalid={
-                                                    (validated || touched.no) && !/^[a-zA-Z0-9]+$/.test(formData.no)
-                                                }
+                                                isInvalid={(validated || touched.no) && !/^[0-9]*$/.test(formData.no)}
                                             />
                                             <Form.Control.Feedback type="invalid">
                                                 எண் தேவைப்படுகிறது
@@ -175,22 +174,16 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="yearEstablished">
                                             <label>மதரஸாவை நிறுவிய ஆண்டு?<span style={{ color: 'red' }}>*</span></label>
-                                            <Form.Control
+                                            <OnlyNumbersInput
                                                 className="form-control"
                                                 type="text"
                                                 name="yearEstablished"
                                                 value={formData.yearEstablished}
-                                                onChange={(e) => {
-                                                    const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                    setFormData({
-                                                        ...formData,
-                                                        yearEstablished: input,
-                                                    });
-                                                }}
+                                                onChange={(value) => handleInputChange('yearEstablished', value)}
                                                 onBlur={handleBlur}
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.yearEstablished) && (!formData.yearEstablished.trim() ||
+                                                    (validated || touched.yearEstablished) && (
                                                         !/^[0-9]*$/.test(formData.yearEstablished))
                                                 }
                                             />
@@ -362,23 +355,17 @@ function MadrasaDetails() {
                                 <div className="col-md-6">
                                     <Form.Group controlId="totalStudents">
                                         <label>மாணவர்களின் மொத்த எண்ணிக்கை  எவ்வளவு? <span style={{ color: 'red' }}>*</span></label>
-                                        <Form.Control
+                                        <OnlyNumbersInput
                                             className="form-control"
                                             type="text"
                                             name="totalStudents"
                                             value={formData.totalStudents}
-                                            onChange={(e) => {
-                                                const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                setFormData({
-                                                    ...formData,
-                                                    totalStudents: input,
-                                                });
-                                            }}
+                                            onChange={(value) => handleInputChange('totalStudents', value)}
                                             onBlur={handleBlur}
                                             pattern="^[0-9]+$"
                                             required
                                             isInvalid={
-                                                (validated || touched.totalStudents) && (!formData.totalStudents.trim() ||
+                                                (validated || touched.totalStudents) && (
                                                     !/^[0-9]*$/.test(formData.totalStudents))
                                             }
 
@@ -393,12 +380,12 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="hifzClass">
                                             <label>ஹிப்ளு வகுப்பு உள்ளதா? அதன் மாணவர்கள் எண்ணிக்கை? <span style={{ color: 'red' }}>*</span></label>
-                                            <Form.Control
+                                            <OnlyNumbersInput
                                                 className="form-control"
                                                 type="text"
                                                 name="hifzClass"
                                                 value={formData.hifzClass}
-                                                onChange={chngFn}
+                                                onChange={(value) => handleInputChange('hifzClass', value)}
                                                 onBlur={handleBlur}
 
                                                 required
@@ -419,23 +406,17 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="arabicClass">
                                             <label>அரபி வகுப்பில் எத்தவன மாணவர்கள்?<span style={{ color: 'red' }}>*</span></label>
-                                            <Form.Control
+                                            <OnlyNumbersInput
                                                 className="form-control"
                                                 type="text"
                                                 name="arabicClass"
                                                 value={formData.arabicClass}
-                                                onChange={(e) => {
-                                                    const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                    setFormData({
-                                                        ...formData,
-                                                        arabicClass: input,
-                                                    });
-                                                }}
+                                                onChange={(value) => handleInputChange('arabicClass', value)}
                                                 onBlur={handleBlur}
                                                 pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.arabicClass) && (!formData.arabicClass.trim() ||
+                                                    (validated || touched.arabicClass) && (
                                                         !/^[0-9]*$/.test(formData.arabicClass))
                                                 }
                                             />
@@ -456,12 +437,9 @@ function MadrasaDetails() {
                                                 value={formData.tahseelClass}
                                                 onChange={chngFn}
                                                 onBlur={handleBlur}
-
+                                                pattern="^[a-zA-Z0-9]+$"
                                                 required
-                                                isInvalid={
-                                                    (validated || touched.tahseelClass) &&
-                                                    !/^[a-zA-Z0-9]+$/.test(formData.tahseelClass)
-                                                }
+                                                isInvalid={(validated || touched.tahseelClass) && !/^[a-zA-Z0-9]+$/.test(formData.tahseelClass)}
                                             />
                                             <Form.Control.Feedback type="invalid">
                                                 தஹ்ஸீல் வகுப்பு தேவைப்படுகிறது
@@ -475,23 +453,17 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="totalTeachers">
                                             <label>ஆசிரியர்களின்  எண்ணிக்கை எவ்வளவு?<span style={{ color: 'red' }}>*</span> </label>
-                                            <Form.Control
+                                            <OnlyNumbersInput
                                                 className="form-control"
                                                 type="text"
                                                 name="totalTeachers"
                                                 value={formData.totalTeachers}
-                                                onChange={(e) => {
-                                                    const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                    setFormData({
-                                                        ...formData,
-                                                        totalTeachers: input,
-                                                    });
-                                                }}
+                                                onChange={(value) => handleInputChange('totalTeachers', value)}
                                                 onBlur={handleBlur}
                                                 pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.totalTeachers) && (!formData.totalTeachers.trim() ||
+                                                    (validated || touched.totalTeachers) && (
                                                         !/^[0-9]*$/.test(formData.totalTeachers))
                                                 }
                                             />
@@ -505,23 +477,17 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="otherstudent">
                                             <label>மற்ற பணியாளர்களின் எண்ணிக்கை  எவ்வளவு?<span style={{ color: 'red' }}>*</span></label>
-                                            <Form.Control
+                                            <OnlyNumbersInput
                                                 className="form-control"
                                                 type="text"
                                                 name="otherstudent"
                                                 value={formData.otherstudent}
-                                                onChange={(e) => {
-                                                    const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                    setFormData({
-                                                        ...formData,
-                                                        otherstudent: input,
-                                                    });
-                                                }}
+                                                onChange={(value) => handleInputChange('otherstudent', value)}
                                                 onBlur={handleBlur}
                                                 pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.otherstudent) && (!formData.otherstudent.trim() ||
+                                                    (validated || touched.otherstudent) && (
                                                         !/^[0-9]*$/.test(formData.otherstudent))
                                                 }
                                             />
@@ -575,23 +541,17 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="numberOfDorms">
                                             <label>தங்கும் அறைகள் எத்தனை? <span style={{ color: 'red' }}>*</span></label>
-                                            <Form.Control
-                                                className="numberOfDorms"
+                                            <OnlyNumbersInput
+                                                className="form-control"
                                                 type="text"
                                                 name="numberOfDorms"
                                                 value={formData.numberOfDorms}
-                                                onChange={(e) => {
-                                                    const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                    setFormData({
-                                                        ...formData,
-                                                        numberOfDorms: input,
-                                                    });
-                                                }}
+                                                onChange={(value) => handleInputChange('numberOfDorms', value)}
                                                 onBlur={handleBlur}
                                                 pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.numberOfDorms) && (!formData.numberOfDorms.trim() ||
+                                                    (validated || touched.numberOfDorms) && (
                                                         !/^[0-9]*$/.test(formData.numberOfDorms))
                                                 }
                                             />
@@ -605,23 +565,17 @@ function MadrasaDetails() {
                                     <div className="mb-3 mb-md-0">
                                         <Form.Group controlId="numberOfClassrooms">
                                             <label>பாட அறைகள் எத்தனை? <span style={{ color: 'red' }}>*</span></label>
-                                            <Form.Control
+                                            <OnlyNumbersInput
                                                 className="form-control"
                                                 type="text"
                                                 name="numberOfClassrooms"
                                                 value={formData.numberOfClassrooms}
-                                                onChange={(e) => {
-                                                    const input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                                    setFormData({
-                                                        ...formData,
-                                                        numberOfClassrooms: input,
-                                                    });
-                                                }}
+                                                onChange={(value) => handleInputChange('numberOfClassrooms', value)}
                                                 onBlur={handleBlur}
                                                 pattern="^[0-9]+$"
                                                 required
                                                 isInvalid={
-                                                    (validated || touched.numberOfClassrooms) && (!formData.numberOfClassrooms.trim() ||
+                                                    (validated || touched.numberOfClassrooms) && (
                                                         !/^[0-9]*$/.test(formData.numberOfClassrooms))
                                                 }
                                             />
@@ -710,8 +664,9 @@ function MadrasaDetails() {
                             </div>
                         </div>
                     </div>
-                </Form>
-            </div >
+
+                </div >
+            </Form>
         </div >
     );
 }

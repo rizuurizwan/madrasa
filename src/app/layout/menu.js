@@ -83,6 +83,14 @@ function Menu() {
                                                     </Link>
                                                 </div>
                                             </li>
+                                            <li>
+                                                <div className="menu-item">
+                                                    <FontAwesomeIcon icon={faCaretRight} className="icon" style={{ color: 'black' }} />
+                                                    <Link className="link" to="themes">Themes
+
+                                                    </Link>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

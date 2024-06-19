@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import CustomDataTable, { handleSearch } from '../../_services/datatable';
+//import axios from 'axios';
+import CustomDataTable ,{handleSearch} from '../../_services/datatable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
-import studentslist from '../user/students.json';
+import studentslist from './students.json';
 import { Link } from "react-router-dom";
 
 function Studentlist() {
@@ -57,7 +58,7 @@ function Studentlist() {
 
     //Only for json
     useEffect(() => {
-        // Directly use the imported JSON data
+        //Directly use the imported JSON data
         const list = studentslist.data;
         setRecords(list);
         setFilterRecords(list);
@@ -74,25 +75,20 @@ function Studentlist() {
     };
 
     return (
-        <div className="container-fluid px-4">
-            <div className="d-flex top-bar justify-content-between align-items-center">
-                <h4 className="mt-p6 mb-0 sm_page_head">
-                    <span className="pagetitcolr">மாணவர் பற்றிய விபரங்கள்</span>
-                </h4>
-            </div>
-
-            <div className="content">
-                <div className="card mb-4">
-                    <div className="card-body form">
-                        <div className="d-flex justify-content-end mb-3">
-                            <input type='text' id='searchInput' placeholder='தேடல்' style={{ width: "30%", marginRight: "10px" }} className="form-control" onKeyPress={handleKeyPress} />
-                            <button onClick={Search} className="btn btn-danger">தேடல்
-                            </button>
-                        </div>
-                        <CustomDataTable columns={columns} data={records} title={PageTitle} />
+        <div>
+            <div className="container-fluid px-4">
+                <div className="d-flex top-bar justify-content-between align-items-center" style={{ marginBotton: '20px' }}>
+                    <h4 className="mt-p6 mb-0">மாணவர் பற்றிய விபரங்கள்</h4>
+                </div>
+                <div className="content">
+                    <div className="d-flex justify-content-end mb-3">
+                        <input type='text' id='searchInput' placeholder='தேடல்' style={{ width: "30%", marginRight: "10px" }} className="form-control" onKeyPress={handleKeyPress} />
+                        <button onClick={Search} className="btn btn-danger">தேடல்
+                        </button>
                     </div>
                 </div>
             </div>
+            <CustomDataTable columns={columns} data={records} title={PageTitle} />
         </div>
     );
 }

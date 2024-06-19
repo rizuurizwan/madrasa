@@ -13,6 +13,7 @@ import Studentdetail from './app/module/user/studentdetail';
 import Users from './app/module/admin/Users';
 import PrivateRoutes from './app/_utilities/PrivateRoutes';
 import Userslist from './app/module/admin/UsersList';
+import Themes from './app/settings/themes';
 function App() {
   return (
     <Router>
@@ -30,6 +31,7 @@ function App() {
             <Route path="studentdetail" element={<Studentdetail />} />
             <Route path="users" element={<Users />} />
             <Route path="userslist" element={<Userslist />} />
+            <Route path="themes" element={<Themes />} />
           </Route>
         </Route>
       </Routes>
